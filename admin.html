@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dr. Rashmi Rathi Studio | Admin Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+
+  <!-- Login Section -->
+  <div class="login-wrapper" id="login-section">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="logo-box">
+          <i class="fa-solid fa-tooth logo-icon"></i>
+        </div>
+        <h2>Rashmi Rathi</h2>
+        <p>Dental Studio Admin Portal</p>
+      </div>
+      
+      <form id="loginForm" class="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="username" placeholder="Enter username" required value="admin">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" placeholder="Enter password" required value="admin123">
+          </div>
+        </div>
+        
+        <button type="submit" class="login-btn">Secure Login <i class="fa-solid fa-arrow-right-to-bracket"></i></button>
+        <div id="login-error" class="login-error">Invalid credentials! Please try again.</div>
+      </form>
+      <div class="login-footer">
+        <p>Demo credentials: <strong>admin / admin123</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div class="dashboard-wrapper hidden" id="dashboard-section">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo-icon"><i class="fa-solid fa-tooth"></i></div>
+        <span>Rashmi Admin</span>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-tab="overview"><i class="fa-solid fa-chart-pie"></i> Overview</button>
+        <button class="nav-btn" data-tab="appointments"><i class="fa-solid fa-calendar-check"></i> Bookings <span class="badge-count" id="nav-booking-badge">0</span></button>
+        <button class="nav-btn" data-tab="settings"><i class="fa-solid fa-gears"></i> Studio Settings</button>
+        <button class="nav-btn" data-tab="reviews"><i class="fa-solid fa-star-half-stroke"></i> Reviews Control</button>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="user-avatar">A</div>
+          <div>
+            <h4>Administrator</h4>
+            <span>Studio Manager</span>
+          </div>
+        </div>
+        <button id="logoutBtn" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="content-header">
+        <h1 id="tab-title">Dashboard Overview</h1>
+        <div class="header-actions">
+          <a href="index.html" target="_blank" class="view-site-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Live Site</a>
+        </div>
+      </header>
+
+      <!-- Content Panels -->
+      <div class="content-panels">
+        
+        <!-- Overview Panel -->
+        <div class="tab-panel active" id="overview-panel">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon bg-indigo-light text-indigo"><i class="fa-solid fa-book-medical"></i></div>
+              <div class="stat-details">
+                <span class="stat-label">Total Reservations</span>
+                <h3 class="stat-val" id="stat-total-bookings">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-amber-light text-amber"><i class="fa-solid fa-hourglass-half"></i></div>
+              <div class="stat-details">
+                <span class="stat-label">Pending Reviews</span>
+                <h3 class="stat-val" id="stat-pending-bookings">0</h3>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon bg-purple-light text-purple"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="stat-details">
+                <span class="stat-label">Confirmed Slots</span>
+                <h3 class="stat-val" id="stat-confirmed-bookings">0</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="dashboard-card main-table-card">
+              <div class="card-header">
+                <h3>Latest Scheduler Submissions</h3>
+                <button class="card-action-link" id="view-all-bookings-shortcut">View All Bookings</button>
+              </div>
+              <div class="table-responsive">
+                <table class="bookings-table">
+                  <thead>
+                    <tr>
+                      <th>Patient Name</th>
+                      <th>Phone</th>
+                      <th>Service Name</th>
+                      <th>Date / Time Block</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-bookings-list">
+                    <!-- Dynamic rows go here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Appointments Panel -->
+        <div class="tab-panel" id="appointments-panel">
+          <div class="dashboard-card">
+            <div class="card-header">
+              <h3>All Appointment Bookings</h3>
+              <div class="card-filters">
+                <select id="booking-filter-status">
+                  <option value="all">All Bookings</option>
+                  <option value="Pending">Pending Only</option>
+                  <option value="Confirmed">Confirmed Only</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="table-responsive">
+              <table class="bookings-table">
+                <thead>
+                  <tr>
+                    <th>Patient Name</th>
+                    <th>Phone</th>
+                    <th>Treatment Option</th>
+                    <th>Requested Date</th>
+                    <th>Preferred Block</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="all-bookings-list">
+                  <!-- Bookings list -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Studio Settings Panel -->
+        <div class="tab-panel" id="settings-panel">
+          <div class="dashboard-card small-width-card">
+            <div class="card-header">
+              <h3>Edit Studio Contact Details</h3>
+            </div>
+            <form id="settingsForm" class="settings-form">
+              <div class="form-group">
+                <label for="set-phone">Hotline & Studio Phone</label>
+                <input type="text" id="set-phone" required>
+              </div>
+              <div class="form-group">
+                <label for="set-address">Studio Address (Main)</label>
+                <textarea id="set-address" rows="2" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="set-address-footer">Studio Address (Footer Mini)</label>
+                <input type="text" id="set-address-footer" required>
+              </div>
+              <div class="form-group">
+                <label for="set-hours-week">Clinic Hours (Mon - Sat)</label>
+                <input type="text" id="set-hours-week" required>
+              </div>
+              <div class="form-group">
+                <label for="set-hours-sun">Clinic Hours (Sunday)</label>
+                <input type="text" id="set-hours-sun" required>
+              </div>
+              
+              <button type="submit" class="save-settings-btn"><i class="fa-solid fa-floppy-disk"></i> Save Studio Details</button>
+              <div id="settings-save-success" class="save-success-msg">Studio settings saved and live updated successfully!</div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Reviews Panel -->
+        <div class="tab-panel" id="reviews-panel">
+          <div class="reviews-split-grid">
+            <div class="dashboard-card">
+              <div class="card-header">
+                <h3>Add Studio Testimonial</h3>
+              </div>
+              <form id="addReviewForm" class="review-form">
+                <div class="form-group">
+                  <label for="rev-name">Patient Name</label>
+                  <input type="text" id="rev-name" placeholder="e.g. Manish Khandelwal" required>
+                </div>
+                <div class="form-group">
+                  <label for="rev-meta">Patient Info (Meta Tag)</label>
+                  <input type="text" id="rev-meta" placeholder="e.g. Father of 6-year old" required>
+                </div>
+                <div class="form-group">
+                  <label for="rev-rating">Star Rating (1 - 5)</label>
+                  <select id="rev-rating" required>
+                    <option value="5" selected>5 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="3">3 Stars</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="rev-quote">Patient Quote</label>
+                  <textarea id="rev-quote" rows="4" placeholder="Type testimonial content..." required></textarea>
+                </div>
+                
+                <button type="submit" class="add-review-btn"><i class="fa-solid fa-plus"></i> Add Testimonial</button>
+              </form>
+            </div>
+            
+            <div class="dashboard-card">
+              <div class="card-header">
+                <h3>Current Live Testimonials</h3>
+              </div>
+              <div class="reviews-list-container" id="admin-reviews-list">
+                <!-- Reviews list goes here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="admin-script.js"></script>
+</body>
+</html>
