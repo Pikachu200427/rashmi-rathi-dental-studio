@@ -35,17 +35,30 @@ document.addEventListener('DOMContentLoaded', () => {
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const user = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value.trim();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-      // Simple credentials check
-      if (user === 'admin' && pass === 'admin123') {
-        sessionStorage.setItem('rashmi_rathi_admin_auth', 'true');
-        loginError.style.display = 'none';
-        checkAuth();
-      } else {
+      fetch('/api/rashmi_rathi/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) {
+          sessionStorage.setItem('rashmi_rathi_admin_auth', 'true');
+          loginError.style.display = 'none';
+          checkAuth();
+        } else {
+          loginError.textContent = result.error || 'Invalid username or password!';
+          loginError.style.display = 'block';
+        }
+      })
+      .catch(err => {
+        console.error('Login error:', err);
+        loginError.textContent = 'Server connection error!';
         loginError.style.display = 'block';
-      }
+      });
     });
   }
 
@@ -290,6 +303,62 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         })
         .catch(err => console.error('Error saving settings:', err));
+      });
+    }
+
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    if (changePasswordForm) {
+      const newPasswordForm = changePasswordForm.cloneNode(true);
+      changePasswordForm.replaceWith(newPasswordForm);
+      
+      newPasswordForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const oldPassword = document.getElementById('set-old-pass').value;
+        const newPassword = document.getElementById('set-new-pass').value;
+        const confirmPassword = document.getElementById('set-confirm-pass').value;
+        
+        const successMsg = document.getElementById('password-save-success');
+        const errorMsg = document.getElementById('password-save-error');
+        
+        if (successMsg) successMsg.style.display = 'none';
+        if (errorMsg) errorMsg.style.display = 'none';
+        
+        if (newPassword !== confirmPassword) {
+          if (errorMsg) {
+            errorMsg.textContent = 'New passwords do not match!';
+            errorMsg.style.display = 'block';
+          }
+          return;
+        }
+        
+        fetch('/api/rashmi_rathi/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ oldPassword, newPassword })
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            newPasswordForm.reset();
+            if (successMsg) {
+              successMsg.style.display = 'block';
+              setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+            }
+          } else {
+            if (errorMsg) {
+              errorMsg.textContent = result.error || 'Failed to update password!';
+              errorMsg.style.display = 'block';
+            }
+          }
+        })
+        .catch(err => {
+          console.error('Error changing password:', err);
+          if (errorMsg) {
+            errorMsg.textContent = 'Server connection error!';
+            errorMsg.style.display = 'block';
+          }
+        });
       });
     }
 
