@@ -1,3 +1,17 @@
+// Redirect API requests to the secure public tunnel if hosted on GitHub Pages
+(function() {
+  const originalFetch = window.fetch;
+  window.fetch = function (url, options) {
+    const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? ''
+      : 'https://60c6d81e69772a.lhr.life';
+    if (typeof url === 'string' && url.startsWith('/api/')) {
+      url = API_BASE + url;
+    }
+    return originalFetch(url, options);
+  };
+})();
+
 document.addEventListener('DOMContentLoaded', () => {
   // --- Load Studio Settings & Reviews from SQLite Backend ---
   
