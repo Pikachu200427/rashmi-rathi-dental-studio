@@ -215,6 +215,30 @@
               <div id="settings-save-success" class="save-success-msg">Studio settings saved and live updated successfully!</div>
             </form>
           </div>
+
+          <div class="dashboard-card small-width-card" style="margin-top: 30px;">
+            <div class="card-header">
+              <h3>Change Admin Password</h3>
+            </div>
+            <form id="changePasswordForm" class="settings-form">
+              <div class="form-group">
+                <label for="set-old-pass">Current Password</label>
+                <input type="password" id="set-old-pass" required placeholder="Enter current password">
+              </div>
+              <div class="form-group">
+                <label for="set-new-pass">New Password</label>
+                <input type="password" id="set-new-pass" required placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label for="set-confirm-pass">Confirm New Password</label>
+                <input type="password" id="set-confirm-pass" required placeholder="Confirm new password">
+              </div>
+              
+              <button type="submit" class="save-settings-btn"><i class="fa-solid fa-key"></i> Update Password</button>
+              <div id="password-save-success" class="save-success-msg">Password updated successfully!</div>
+              <div id="password-save-error" class="login-error" style="display: none; margin-top: 10px;">Passwords do not match!</div>
+            </form>
+          </div>
         </div>
 
         <!-- Reviews Panel -->
